@@ -1,5 +1,4 @@
-#include "src/sha256.h"
-#include "src/bswap.h"
+#include <sha256/sha256.h>
 
 #include <unistd.h>
 

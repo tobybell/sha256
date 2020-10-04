@@ -3,8 +3,8 @@ TARGET = dist/sha256
 SOURCES = $(wildcard src/**/*.c) $(wildcard src/*.c)
 OBJECTS = $(patsubst src/%.c,build/%.o,$(SOURCES))
 
-LIBS = $(wildcard lib/**)
-STATIC_LIBS = $(wildcard lib/*.a)
+LIBS = $(wildcard lib/*)
+LIB_LINK = $(wildcard lib/*.a) $(wildcard lib/**/*.a)
 
 INCLUDE = $(patsubst %,-I%,$(LIBS))
 
@@ -15,7 +15,7 @@ run: $(TARGET)
 
 .SECONDEXPANSION:
 
-$(TARGET): $(OBJECTS) | $$(@D)/.keep
+$(TARGET): $(OBJECTS) $(LIB_LINK) | $$(@D)/.keep
 	clang -std=c11 -o $@ $^
 
 build/%.o: src/%.c | $$(@D)/.keep

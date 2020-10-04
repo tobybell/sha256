@@ -1,0 +1,3 @@
+[submodule "lib/libsha256"]
+	path = lib/libsha256
+	url = git@github.com:tobybell/libsha256.git
