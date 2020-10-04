@@ -14,7 +14,7 @@ You're welcome to use it if you like.
 This tool has only a single usage mode, in which a message is read from
 standard in and the digest is written to standard out.
 
-```
+```shell
 cat my_file.txt | sha256
 ```
 
