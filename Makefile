@@ -1,4 +1,10 @@
-TARGET = dist/sha256
+NAME = sha256
+
+# Release products.
+DST_BIN = dist/$(NAME)
+DST_LICENSE = dist/LICENSE
+DST_README = dist/README.md
+DST = $(DST_BIN) $(DST_LICENSE) $(DST_README)
 
 SOURCES = $(wildcard src/**/*.c) $(wildcard src/*.c)
 OBJECTS = $(patsubst src/%.c,build/%.o,$(SOURCES))
@@ -8,14 +14,20 @@ LIB_LINK = $(wildcard lib/*.a) $(wildcard lib/**/*.a)
 
 INCLUDE = $(patsubst %,-I%,$(LIBS))
 
-all: $(TARGET)
+all: $(DST)
 
-run: $(TARGET)
+run: $(DST_BIN)
 	$^
 
 .SECONDEXPANSION:
 
-$(TARGET): $(OBJECTS) $(LIB_LINK) | $$(@D)/.keep
+$(DST_LICENSE): LICENSE
+	cp $< $@
+
+$(DST_README): README.md
+	cp $< $@
+
+$(DST_BIN): $(OBJECTS) $(LIB_LINK) | $$(@D)/.keep
 	clang -std=c11 -o $@ $^
 
 build/%.o: src/%.c | $$(@D)/.keep
@@ -28,6 +40,6 @@ build/%.o: src/%.c | $$(@D)/.keep
 	@touch $@
 
 clean:
-	rm -rf dist build
+	rm -rf $(DST) build
 
 -include $(OBJECTS:.o=.d)
