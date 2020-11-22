@@ -27,13 +27,16 @@ $(DST_LICENSE): LICENSE
 $(DST_README): README.md
 	cp $< $@
 
-$(DST_BIN): $(OBJECTS) $(LIB_LINK) | $$(@D)/.keep
+$(DST_BIN): $(OBJECTS) $(LIB_LINK)
 	clang -std=c11 -o $@ $^
 
 build/%.o: src/%.c | $$(@D)/.keep
 	clang -std=c11 -O2 $(INCLUDE) -MD -o $@ -c $< 
 
 .PRECIOUS: %/.keep
+
+dist:
+	mkdir -p $@
 
 %/.keep:
 	mkdir -p $(dir $@)
